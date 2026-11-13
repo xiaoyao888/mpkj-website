@@ -1,9 +1,11 @@
 import type { APIRoute } from 'astro';
-import { site, companyInfo, features, newsList, solutionList } from '../data/siteConfig.js';
+import { site, companyInfo, features, newsList, solutionList, solutionProjects, faqs } from '../data/siteConfig.js';
 
 const getLlmsTxt = (): string => {
   const featureItems = features.map((item) => `- ${item.title}: ${item.description}`).join('\n');
   const solutionItems = solutionList.map((item) => `- ${item.title}: ${item.description}`).join('\n');
+  const projectItems = solutionProjects.map((item) => `- [${item.title}](${site.url}/solutions/${item.id}/): ${item.description}`).join('\n');
+  const faqItems = faqs.map((item) => `- ${item.question}\n  ${item.answer}`).join('\n');
   const newsItems = newsList.map((item) => `- [${item.title}](${site.url}/article/${item.id}/): ${item.summary}`).join('\n');
 
   return `# ${site.name}
@@ -16,7 +18,8 @@ ${companyInfo.name}提供业务小程序与后台管理系统，面向中小企�
 ## 主要页面
 - [首页](${site.url}/): 产品能力、适用场景、交付流程和联系方式。
 - [公司简介](${site.url}/about): 公司信息、系统交付能力、适用场景与企业资质。
-- [预约演示](${site.url}/download): 系统演示咨询入口、演示前准备事项和联系方式。
+- [解决方案](${site.url}/solutions): 秒派送水系统、自习室预约系统、托管辅导系统。
+- [联系我们](${site.url}/contact): 电话邮箱地址、咨询前准备事项和常见问题。
 - [新闻中心](${site.url}/news): 系统交付观点、公司动态与行业资讯。
 
 ## 产品能力
@@ -24,6 +27,12 @@ ${featureItems}
 
 ## 适用场景
 ${solutionItems}
+
+## 解决方案
+${projectItems}
+
+## 常见问题
+${faqItems}
 
 ## 新闻与观点
 ${newsItems}

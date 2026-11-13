@@ -1,0 +1,140 @@
+---
+import MainLayout, { siteTitle } from '../../layouts/MainLayout.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import { companyInfo } from '../../data/siteConfig.js';
+import { solutionDetails } from '../../data/solutionDetails.js';
+
+export function getStaticPaths() {
+  return solutionDetails.map((item) => ({ params: { id: item.id }, props: { solution: item } }));
+}
+
+const { solution } = Astro.props;
+const pageTitle = `${solution.title} - ${siteTitle}`;
+const pageDescription = `${companyInfo.name}${solution.title}：${solution.tagline}。${solution.modules.map((item) => item.title).slice(0, 5).join('、')}。`;
+---
+<MainLayout title={pageTitle} description={pageDescription}>
+  <Header />
+  <main>
+    <section class="bg-gradient-to-br from-emerald-50 via-white to-amber-50 pt-28 pb-14 dark:from-slate-950 dark:to-slate-900 md:pt-36">
+      <div class="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
+        <nav class="mb-8 flex items-center gap-2 text-sm text-slate-500" aria-label="面包屑导航">
+          <a href="/" class="hover:text-emerald-700 dark:hover:text-emerald-300">首页</a>
+          <span>/</span>
+          <a href="/solutions" class="hover:text-emerald-700 dark:hover:text-emerald-300">解决方案</a>
+          <span>/</span>
+          <span class="truncate font-bold text-emerald-700 dark:text-emerald-300">{solution.title}</span>
+        </nav>
+        <p class="text-sm font-black tracking-widest text-emerald-700 dark:text-emerald-300">{solution.subtitle}</p>
+        <h1 class="mt-3 text-4xl font-black tracking-[-0.03em] text-slate-950 dark:text-white md:text-6xl">{solution.title}</h1>
+        <p class="mt-5 text-xl font-bold text-slate-700 dark:text-slate-200">{solution.tagline}</p>
+        <div class="mt-6 space-y-4 text-base leading-8 text-slate-600 dark:text-slate-300">
+          {solution.intro.map((paragraph) => <p>{paragraph}</p>)}
+        </div>
+        <div class="mt-9 flex flex-col gap-3 sm:flex-row">
+          <a href="/contact" class="inline-flex items-center justify-center rounded-full bg-slate-950 px-8 py-4 font-black text-white transition hover:-translate-y-1 hover:bg-emerald-700 dark:bg-white dark:text-slate-950 dark:hover:bg-emerald-200">联系我们</a>
+          <a href={`tel:${companyInfo.phone}`} class="inline-flex items-center justify-center rounded-full border border-slate-950/15 bg-white/70 px-8 py-4 font-black text-slate-900 transition hover:-translate-y-1 dark:border-white/10 dark:bg-white/10 dark:text-white">电话咨询：{companyInfo.phone}</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="bg-[#f6f3ea] py-16 dark:bg-slate-900 md:py-20">
+      <div class="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
+        <h2 class="text-3xl font-black text-slate-950 dark:text-white">适用场景</h2>
+        <p class="mt-3 text-base leading-7 text-slate-600 dark:text-slate-300">这几类业务可以直接套用，或按现有流程做小幅改造。</p>
+        <div class="mt-10 grid gap-5 sm:grid-cols-2">
+          {solution.scenes.map((item) => (
+            <article class="rounded-[2rem] bg-white p-6 shadow-sm dark:bg-slate-800">
+              <div class="flex items-start gap-3">
+                <span class="mt-1 flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-emerald-100 text-xs font-black text-emerald-800 dark:bg-emerald-950 dark:text-emerald-200">✓</span>
+                <div>
+                  <h3 class="text-lg font-black text-slate-950 dark:text-white">{item.title}</h3>
+                  <p class="mt-2 text-sm leading-7 text-slate-600 dark:text-slate-300">{item.description}</p>
+                </div>
+              </div>
+            </article>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <section class="bg-white py-16 dark:bg-slate-950 md:py-20">
+      <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <h2 class="text-3xl font-black text-slate-950 dark:text-white">系统构成</h2>
+        <div class="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+          {solution.ends.map((item, index) => (
+            <article class={`rounded-[2rem] p-6 ${index === 0 ? 'bg-[#101827] text-white dark:bg-emerald-300 dark:text-slate-950' : 'border border-slate-950/5 bg-[#f8fbff] dark:border-white/10 dark:bg-slate-900'}`}>
+              <div class="text-sm font-black opacity-45">0{index + 1}</div>
+              <h3 class="mt-6 text-xl font-black tracking-[-0.02em]">{item.title}</h3>
+              <p class={`mt-3 text-sm leading-7 ${index === 0 ? 'text-white/75 dark:text-slate-700' : 'text-slate-600 dark:text-slate-300'}`}>{item.description}</p>
+            </article>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <section class="bg-[#f6f3ea] py-16 dark:bg-slate-900 md:py-20">
+      <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <h2 class="text-3xl font-black text-slate-950 dark:text-white">功能模块</h2>
+        <div class="mt-10 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
+          {solution.modules.map((item) => (
+            <article class="rounded-[2rem] bg-white p-6 shadow-sm dark:bg-slate-800">
+              <h3 class="text-lg font-black text-slate-950 dark:text-white">{item.title}</h3>
+              <p class="mt-3 text-sm leading-7 text-slate-600 dark:text-slate-300">{item.description}</p>
+            </article>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <section class="bg-white py-16 dark:bg-slate-950 md:py-20">
+      <div class="mx-auto grid max-w-6xl gap-6 px-4 sm:px-6 lg:grid-cols-2 lg:px-8">
+        {solution.flows.map((flow) => (
+          <div class="rounded-[2rem] border border-slate-950/5 bg-[#f8fbff] p-7 dark:border-white/10 dark:bg-slate-900">
+            <h2 class="text-2xl font-black text-slate-950 dark:text-white">{flow.title}</h2>
+            <ol class="mt-7 space-y-3">
+              {flow.steps.map((step, index) => (
+                <li class="flex items-center gap-4 rounded-2xl bg-white px-4 py-3 text-sm font-bold text-slate-800 shadow-sm dark:bg-slate-800 dark:text-slate-100">
+                  <span class="text-emerald-700 dark:text-emerald-300">0{index + 1}</span>
+                  {step}
+                </li>
+              ))}
+            </ol>
+          </div>
+        ))}
+      </div>
+    </section>
+
+    <section class="bg-[#f6f3ea] py-16 dark:bg-slate-900 md:py-20">
+      <div class="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
+        <h2 class="text-3xl font-black text-slate-950 dark:text-white">技术栈</h2>
+        <div class="mt-10 grid gap-5 sm:grid-cols-2">
+          {solution.stack.map((group) => (
+            <div class="rounded-[2rem] bg-white p-6 shadow-sm dark:bg-slate-800">
+              <h3 class="text-sm font-black uppercase tracking-[0.2em] text-slate-400">{group.group}</h3>
+              <div class="mt-4 flex flex-wrap gap-2">
+                {group.items.map((item) => (
+                  <span class="rounded-full bg-emerald-50 px-4 py-2 text-xs font-black text-emerald-800 dark:bg-emerald-950 dark:text-emerald-200">{item}</span>
+                ))}
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <section class="bg-[#101827] py-16 text-white md:py-20">
+      <div class="mx-auto grid max-w-6xl gap-8 px-4 sm:px-6 lg:grid-cols-[1.1fr_.9fr] lg:items-center lg:px-8">
+        <div>
+          <h2 class="text-3xl font-black tracking-[-0.03em] md:text-4xl">想看 {solution.title} 的实际效果？</h2>
+          <p class="mt-5 text-lg leading-8 text-slate-300">我们可以按你的业务流程演示对应模块，说明哪些是标准功能、哪些需要配置或定制，以及上线需要准备的材料。</p>
+        </div>
+        <div class="flex flex-col gap-3">
+          <a href="/contact" class="rounded-full bg-white px-8 py-4 text-center font-black text-slate-950 transition hover:bg-emerald-300">联系我们</a>
+          <a href="/solutions" class="rounded-full border border-white/20 bg-white/10 px-8 py-4 text-center font-black text-white transition hover:bg-white/20">查看其他解决方案</a>
+        </div>
+      </div>
+    </section>
+  </main>
+  <Footer />
+</MainLayout>
