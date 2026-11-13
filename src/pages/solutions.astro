@@ -3,6 +3,9 @@ import MainLayout, { siteTitle } from '../layouts/MainLayout.astro';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import { companyInfo, solutionProjects } from '../data/siteConfig.js';
+import { solutionDetails } from '../data/solutionDetails.js';
+
+const scenesById = Object.fromEntries(solutionDetails.map((item) => [item.id, item.scenes]));
 
 const pageTitle = `解决方案 - ${siteTitle}`;
 const pageDescription = `${companyInfo.name}已交付的秒派送水系统、自习室预约系统与托管辅导系统，均包含小程序端与后台管理系统，支持标准交付与二次开发。`;
@@ -20,31 +23,31 @@ const pageDescription = `${companyInfo.name}已交付的秒派送水系统、自
 
     <section class="bg-white py-16 dark:bg-slate-950 md:py-24">
       <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+        <div class="grid gap-6">
           {solutionProjects.map((item, index) => (
-            <a href={`/solutions/${item.id}/`} class="group flex min-h-[300px] flex-col rounded-[2rem] border border-slate-950/5 bg-[#f8fbff] p-7 shadow-sm transition hover:-translate-y-2 hover:border-emerald-700/30 hover:shadow-xl dark:border-white/10 dark:bg-slate-900">
-              <div class="flex items-center justify-between">
-                <span class="text-xs font-black uppercase tracking-[0.28em] text-emerald-700 dark:text-emerald-300">{item.subtitle}</span>
-                <span class="text-sm font-black text-slate-300 dark:text-slate-600">0{index + 1}</span>
+            <a href={`/solutions/${item.id}/`} class="group grid gap-8 rounded-[2rem] border border-slate-950/5 bg-[#f8fbff] p-8 shadow-sm transition hover:-translate-y-1 hover:border-emerald-700/30 hover:shadow-xl dark:border-white/10 dark:bg-slate-900 lg:grid-cols-[.85fr_1.15fr] lg:items-start">
+              <div>
+                <div class="flex flex-wrap items-center gap-3">
+                  <span class="text-xs font-black uppercase tracking-[0.28em] text-emerald-700 dark:text-emerald-300">{item.subtitle}</span>
+                  <span class="text-sm font-black text-slate-300 dark:text-slate-600">0{index + 1}</span>
+                </div>
+                <h2 class="mt-5 text-3xl font-black tracking-[-0.03em] text-slate-950 group-hover:text-emerald-700 dark:text-white dark:group-hover:text-emerald-300">{item.title}</h2>
+                <p class="mt-4 text-sm leading-7 text-slate-600 dark:text-slate-300">{item.description}</p>
+                <span class="mt-6 inline-block text-sm font-black text-emerald-700 dark:text-emerald-300">查看详情 <span class="inline-block transition group-hover:translate-x-1">→</span></span>
               </div>
-              <h2 class="mt-8 text-2xl font-black tracking-[-0.03em] text-slate-950 group-hover:text-emerald-700 dark:text-white dark:group-hover:text-emerald-300">{item.title}</h2>
-              <p class="mt-4 flex-1 text-sm leading-7 text-slate-600 dark:text-slate-300">{item.description}</p>
-              <span class="mt-6 text-sm font-black text-emerald-700 dark:text-emerald-300">查看详情 <span class="inline-block transition group-hover:translate-x-1">→</span></span>
+              <div class="rounded-[1.5rem] bg-white p-6 shadow-sm dark:bg-slate-800">
+                <h3 class="text-xs font-black uppercase tracking-[0.2em] text-slate-400">适用场景</h3>
+                <div class="mt-4 grid gap-5 sm:grid-cols-2">
+                  {scenesById[item.id].map((scene) => (
+                    <div>
+                      <div class="text-sm font-black text-slate-950 dark:text-white">{scene.title}</div>
+                      <p class="mt-1 text-xs leading-6 text-slate-600 dark:text-slate-300">{scene.description}</p>
+                    </div>
+                  ))}
+                </div>
+              </div>
             </a>
           ))}
-        </div>
-      </div>
-    </section>
-
-    <section class="bg-[#101827] py-16 text-white md:py-20">
-      <div class="mx-auto grid max-w-6xl gap-8 px-4 sm:px-6 lg:grid-cols-[1.1fr_.9fr] lg:items-center lg:px-8">
-        <div>
-          <h2 class="text-3xl font-black tracking-[-0.03em] md:text-4xl">看中哪一套，先演示再决定。</h2>
-          <p class="mt-5 text-lg leading-8 text-slate-300">我们可以按你的业务类型演示对应系统，确认标准模块是否够用、哪些流程需要改造，再谈交付方式与周期。</p>
-        </div>
-        <div class="flex flex-col gap-3">
-          <a href="/contact" class="rounded-full bg-white px-8 py-4 text-center font-black text-slate-950 transition hover:bg-emerald-300">联系我们</a>
-          <a href={`tel:${companyInfo.phone}`} class="rounded-full border border-white/20 bg-white/10 px-8 py-4 text-center font-black text-white transition hover:bg-white/20">电话咨询：{companyInfo.phone}</a>
         </div>
       </div>
     </section>

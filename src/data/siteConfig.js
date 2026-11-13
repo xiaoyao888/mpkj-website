@@ -22,9 +22,9 @@ export const companyInfo = {
 
 export const navLinks = [
   { id: 'home', name: '首页', href: '/' },
-  { id: 'features', name: '产品能力', href: '/#features' },
   { id: 'software', name: '解决方案', href: '/solutions' },
   { id: 'about', name: '公司简介', href: '/about' },
+  { id: 'faq', name: '常见问题', href: '/faq' },
   { id: 'contact', name: '联系我们', href: '/contact' },
   { id: 'news', name: '新闻中心', href: '/news' },
 ];
