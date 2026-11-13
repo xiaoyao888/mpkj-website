@@ -1,4 +1,6 @@
 # build output
+.deploy-build/
+.verify-build/
 
 # generated types
 .astro/
